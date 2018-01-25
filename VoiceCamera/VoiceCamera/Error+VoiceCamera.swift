@@ -12,7 +12,7 @@ extension CameraService {
     
     enum CameraControllerError: Swift.Error {
         case captureSessionAlreadyRunning
-        case captureSessionIsMissing
+        case captureSessionNotRunning
         case invalidInput(type: AVCaptureDevice.Position)
         case cannotAddInput(AVCaptureDevice.Position)
         case outputsAreInvalid(reason: String)

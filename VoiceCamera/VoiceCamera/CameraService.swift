@@ -10,7 +10,7 @@
 import UIKit
 import AVFoundation
 
-class CameraService {
+enum CameraService {
     
     static func initializeSession() throws -> AVCaptureSession {
         return AVCaptureSession()
@@ -81,10 +81,20 @@ class CameraService {
     }
     
     static func addOutput(_ output: AVCapturePhotoOutput, to session: AVCaptureSession) throws {
+        
         if session.canAddOutput(output) {
             session.addOutput(output)
         } else {
             throw CameraControllerError.cannotAddOutput
         }
+    }
+    
+    static func makePreviewLayer(session: AVCaptureSession) throws -> AVCaptureVideoPreviewLayer {
+        guard session.isRunning else { throw CameraControllerError.captureSessionNotRunning }
+        
+        let previewLayer = AVCaptureVideoPreviewLayer(session: session)
+        previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        previewLayer.connection?.videoOrientation = .portrait
+        return previewLayer
     }
 }
